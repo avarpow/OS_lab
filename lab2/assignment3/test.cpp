@@ -14,17 +14,17 @@ char *while_flag, *random_buffer;
 
 // THE ONLY CODE YOU CAN CHANGE IN THIS FILE!!!
 void student_setting() {
-    a1 = 24;
-    a2 = 14;
+    a1 = 7;
+    a2 = 32;
 }
 
-char my_random() {
+extern "C" char my_random() {
     char c = rand() % (RAND_WIDTH) + 'a';
     random_buffer[a2 - 12] = c;
     return c;
 }
 
-void print_a_char(char c) {
+extern "C" void print_a_char(char c) {
     std::cout << c;
 }
 
@@ -68,12 +68,13 @@ int main() {
     }
 
     std::cout << ">>> if test pass!" << std::endl;
-
+    std::cout<<"while_flag "<<while_flag<<std::endl;
+    std::cout<<"random_buffer "<<random_buffer<<std::endl;
     if(strcmp(while_flag, random_buffer) == 0) {
+        
         std::cout << ">>> while test pass!" << std::endl;
     } else {
         test_failed();
     }
-    
     your_function();
 }
