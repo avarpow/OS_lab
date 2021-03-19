@@ -31,7 +31,7 @@ mov [gs:2 * 2], ax
 
 mov bh,9 ;字符1初始行
 mov bl,0 ;字符1初始列
-mov ch,17 ;字符2初始行
+mov ch,16 ;字符2初始行
 mov cl,79 ;字符2初始列
 mov dh,0 ;字符1初始方向
 mov dl,3 ;字符2初始方向
@@ -47,7 +47,7 @@ print:
     mov bp,dx
     mov [gs:bp],ax
     popad
-
+    call print_id
     call pause
     call change_text
 
@@ -61,6 +61,7 @@ print:
     mov bp,dx
     mov [gs:bp],ax
     popad
+    call print_id
     call pause
     call change_text
     call change_b_position
@@ -166,7 +167,6 @@ c_change_up_down:
 c_change_end:
     ret
 
-
 pause: ;延时函数
     pushad
     mov ecx,delay
@@ -185,8 +185,23 @@ pause_2:
     in_end_2:
     popad
     ret
-
+   
+print_id:
+    pushad
+    mov si, stuid          ; 显示姓名和学号
+    mov di, 64
+    mov cx, 16
+print_char:                      ; 
+    mov ah,0x47
+    mov al, [si]
+    inc si
+    mov word [gs:di],ax
+    add di,2
+    loop print_char
+    popad
+    ret
 jmp $ ; 死循环
 
+stuid db 'Avarpow 18324034'
 times 510 - ($ - $$) db 0
 db 0x55, 0xaa

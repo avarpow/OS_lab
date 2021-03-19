@@ -52,7 +52,7 @@ your_while:
 
 your_function:
     mov ecx,0
-        mov edx,[your_string]
+    mov edx,[your_string]
     func_loop:
         mov al,[ecx+edx]
         mov ah,0
