@@ -1,0 +1,13 @@
+target remote:1234
+break *0x7c00
+display /10i $pc
+display $dh
+display $dl
+display $bl
+display $bh
+display $cl
+display $ch
+display $al
+display $ah
+display $bp
+c

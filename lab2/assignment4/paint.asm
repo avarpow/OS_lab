@@ -22,20 +22,16 @@ mov ax, 0xb800
 mov gs, ax
 mov ah, 0x0 ;
 mov al, '0'
-
 ;初始化bp
 mov bp,0
 ;初始化位置
-
-mov [gs:2 * 2], ax
-
 mov bh,9 ;字符1初始行
 mov bl,0 ;字符1初始列
 mov ch,16 ;字符2初始行
 mov cl,79 ;字符2初始列
 mov dh,0 ;字符1初始方向
 mov dl,3 ;字符2初始方向
-
+call clear_screen
 print:
     pushad
     mov dh,0
@@ -185,13 +181,25 @@ pause_2:
     in_end_2:
     popad
     ret
-   
+
+clear_screen:
+    pushad
+    mov ax,0
+    mov ecx,2000
+    mov di,0
+    clc_loop:
+        mov word [gs:di],ax
+        add di,2
+        loop clc_loop
+    popad
+    ret
+
 print_id:
     pushad
     mov si, stuid          ; 显示姓名和学号
     mov di, 64
     mov cx, 16
-print_char:                      ; 
+print_char:
     mov ah,0x47
     mov al, [si]
     inc si
