@@ -1,0 +1,15 @@
+target remote:1234
+break *0x7c00
+break *0x7e00
+layout src
+set disassembly-flavor intel
+add-symbol-file mbr.symbol 0x7c00
+add-symbol-file bootloader.symbol 0x7e00
+fs cmd
+break protect_mode_begin
+break brk
+break creat_gdt
+break cr0_ok
+display $ax
+display /x $bx
+display $cx
