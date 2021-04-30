@@ -1,7 +1,7 @@
 ASM_COMPILER = nasm
 C_COMPLIER = gcc
 CXX_COMPLIER = g++
-CXX_COMPLIER_FLAGS = -g -Wall -march=i386 -m32 -nostdlib -fno-builtin -ffreestanding -fno-pic
+CXX_COMPLIER_FLAGS = -g -Wall -march=i386 -m32 -nostdlib -fno-builtin -ffreestanding -fno-pic -D LOG_LEVEL=15
 LINKER = ld
 
 SRCDIR = ../src
