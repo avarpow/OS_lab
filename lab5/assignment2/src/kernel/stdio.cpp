@@ -144,6 +144,36 @@ int STDIO::print(const char *const str)
 
     return i;
 }
+int STDIO::print(int color,const char *const str)
+{
+    int i = 0;
+
+    for (i = 0; str[i]; ++i)
+    {
+        switch (str[i])
+        {
+        case '\n':
+            uint row;
+            row = getCursor() / 80;
+            if (row == 24)
+            {
+                rollUp();
+            }
+            else
+            {
+                ++row;
+            }
+            moveCursor(row * 80);
+            break;
+
+        default:
+            print(str[i],color);
+            break;
+        }
+    }
+
+    return i;
+}
 
 int printf_add_to_buffer(char *buffer, char c, int &idx, const int BUF_LEN)
 {

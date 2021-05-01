@@ -20,6 +20,8 @@ public:
     void print(uint8 c);
     // 打印字符串，颜色默认
     int print(const char *const str);
+    // 打印对应颜色
+    int print(int color,const char *const str);
     // 移动光标到一维位置
     void moveCursor(uint position);
     // 移动光标到二维位置

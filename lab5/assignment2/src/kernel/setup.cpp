@@ -13,12 +13,19 @@ ProgramManager programManager;
 
 void third_thread(void *arg) {
     printf("pid %d name \"%s\": Hello third World!\n", programManager.running->pid, programManager.running->name);
-    while(1) {
-
+    int k=10;
+    while(k--) {
+        printf("pid %d name \"%s\": Hello third World!\n", programManager.running->pid, programManager.running->name);
+        for(int i=0;i<100000000;i++);
     }
 }
 void second_thread(void *arg) {
     printf("pid %d name \"%s\": Hello second World!\n", programManager.running->pid, programManager.running->name);
+    int k=10;
+    while(k--) {
+        printf("pid %d name \"%s\": Hello second World!\n", programManager.running->pid, programManager.running->name);
+        for(int i=0;i<100000000;i++);
+    }
 }
 void first_thread(void *arg)
 {
@@ -26,8 +33,8 @@ void first_thread(void *arg)
     printf("pid %d name \"%s\": Hello first World!\n", programManager.running->pid, programManager.running->name);
     if (!programManager.running->pid)
     {
-        programManager.executeThread(second_thread, nullptr, "second thread", 1);
-        programManager.executeThread(third_thread, nullptr, "third thread", 1);
+        programManager.executeThread(second_thread, nullptr, "second thread", 3);
+        programManager.executeThread(third_thread, nullptr, "third thread", 20);
     }
     asm_halt();
 }

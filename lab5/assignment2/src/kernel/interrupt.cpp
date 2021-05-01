@@ -91,10 +91,10 @@ extern "C" void c_time_interrupt_handler()
 
     if (cur->ticks)
     {
-        --cur->ticks;
+        --cur->ticks;//消耗时间片
         ++cur->ticksPassedBy;
     }
-    else
+    else//时间片耗尽则执行切换程序
     {
         programManager.schedule();
     }

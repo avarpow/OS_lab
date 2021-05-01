@@ -1,0 +1,6 @@
+target remote:1234
+file ../build/kernel.o
+set disassembly-flavor intel
+layout src
+break setup_kernel
+c
