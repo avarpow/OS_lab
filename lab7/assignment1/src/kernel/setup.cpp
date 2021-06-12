@@ -15,6 +15,7 @@ InterruptManager interruptManager;
 ProgramManager programManager;
 // 内存管理器
 MemoryManager memoryManager;
+extern "C" void brk(){};
 
 void first_thread(void *arg)
 {
@@ -28,21 +29,27 @@ void first_thread(void *arg)
 
     char *p1 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 100);
     printf_debug("first address:%x\n", p1);
-        int t=999999999;while(t--);
+    // printf_debug("close address:%x\n", p1);
+    asm_stop_page_reg();
+    brk();
+    asm_open_page_reg();
+    *p1=10;
+    asm_stop_page_reg();
+    brk();
+    asm_open_page_reg();
 
     char *p2 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 10);
-    char *p3 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 100);
     printf_debug("second address:%x\n", p2);
-    printf_debug("third address:%x\n", p3);
-    memoryManager.releasePages(AddressPoolType::KERNEL, (int)p2, 10);
-    p2 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 100);
-    printf_debug("realloc p2 %x\n", p2);
-    p2 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 10);
-    printf_debug("realloc p2 %x\n", p2);
+    char *p3 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 100);
+    // printf_debug("third address:%x\n", p3);
+    // memoryManager.releasePages(AddressPoolType::KERNEL, (int)p2, 10);
+    // p2 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 100);
+    // printf_debug("realloc p2 %x\n", p2);
+    // p2 = (char *)memoryManager.allocatePages(AddressPoolType::KERNEL, 10);
+    // printf_debug("realloc p2 %x\n", p2);
 
     asm_halt();
 }
-
 extern "C" void setup_kernel()
 {
 

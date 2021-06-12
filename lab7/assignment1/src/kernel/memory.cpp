@@ -131,6 +131,7 @@ void MemoryManager::openPageMechanism()
 {
     // 页目录表指针
     int *directory = (int *)PAGE_DIRECTORY;
+    printf_debug("page directory at %x\n",directory);
     //线性地址0~4MB对应的页表
     int *page = (int *)(PAGE_DIRECTORY + PAGE_SIZE);
 
@@ -183,19 +184,23 @@ int MemoryManager::allocatePages(enum AddressPoolType type, const int count)
         // 第二步：从物理地址池中分配一个物理页
         physicalPageAddress = allocatePhysicalPages(type, 1);
         //printf_debug("alloc phy page at %x\n",physicalPageAddress);
-
         if (physicalPageAddress)
         {
             //printf("allocate physical page 0x%x\n", physicalPageAddress);
-
             // 第三步：为虚拟页建立页目录项和页表项，使虚拟页内的地址经过分页机制变换到物理页内。
             flag = connectPhysicalVirtualPage(vaddress, physicalPageAddress);
+            if(i==0){
+                    printf_debug("connect vaddr:%x phyaddr:%x\n",vaddress,physicalPageAddress);
+                    int *pde = (int *)toPDE(vaddress);
+                    printf_debug("pde at %x\n",pde);
+                    int *pte = (int *)toPTE(vaddress);
+                    printf_debug("pte at %x\n",pte);
+            }
         }
         else
         {
             flag = false;
         }
-
         // 分配失败，释放前面已经分配的虚拟页和物理页表
         if (!flag)
         {
@@ -232,7 +237,7 @@ bool MemoryManager::connectPhysicalVirtualPage(const int virtualAddress, const i
     {
         // 从内核物理地址空间中分配一个页表
         int page = allocatePhysicalPages(AddressPoolType::KERNEL, 1);
-        printf_debug("alloc new page at %x\n",page);
+        printf_debug("alloc new page table at %x\n",page);
         if (!page)
             return false;
         // 使页目录项指向页表

@@ -14,12 +14,24 @@ global asm_interrupt_status
 global asm_switch_thread
 global asm_atomic_exchange
 global asm_init_page_reg
+global asm_stop_page_reg
+global asm_open_page_reg
 extern c_time_interrupt_handler
 ASM_UNHANDLED_INTERRUPT_INFO db 'Unhandled interrupt happened, halt...'
                              db 0
 ASM_IDTR dw 0
          dd 0
 
+asm_stop_page_reg:
+    mov eax, cr0
+    and eax, 0x7fffffff
+    mov cr0, eax           ; 置PG=1，开启分页机制
+    ret
+asm_open_page_reg:
+    mov eax, cr0
+    or eax, 0x80000000
+    mov cr0, eax           ; 置PG=1，开启分页机制
+    ret
 ; void asm_init_page_reg(int *directory);
 asm_init_page_reg:
     push ebp

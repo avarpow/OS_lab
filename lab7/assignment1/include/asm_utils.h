@@ -16,4 +16,6 @@ extern "C" void asm_disable_interrupt();
 extern "C" void asm_switch_thread(void *cur, void *next);
 extern "C" void asm_atomic_exchange(uint32 *reg, uint32 *mem);
 extern "C" void asm_init_page_reg(int *directory);
+extern "C" void asm_open_page_reg();
+extern "C" void asm_stop_page_reg();
 #endif
