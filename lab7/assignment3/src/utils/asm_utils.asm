@@ -4,6 +4,7 @@ global asm_hello_world
 global asm_lidt
 global asm_unhandled_interrupt
 global asm_halt
+global asm_cr3
 global asm_out_port
 global asm_in_port
 global asm_time_interrupt_handler
@@ -22,6 +23,12 @@ ASM_UNHANDLED_INTERRUPT_INFO db 'Unhandled interrupt happened, halt...'
 ASM_IDTR dw 0
          dd 0
 
+asm_cr3:
+    pushad
+    mov eax,cr3
+    mov cr3,eax
+    popad
+    ret
 asm_stop_page_reg:
     mov eax, cr0
     and eax, 0x7fffffff

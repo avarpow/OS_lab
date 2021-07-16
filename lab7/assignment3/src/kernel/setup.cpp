@@ -30,7 +30,7 @@ void first_thread(void *arg)
     }
     printf_info("access addr ");
     for(int i=0;i<500;i++){
-        int t=259999999;
+        int t=109999999;
         while (t--);
         int now=random_series[i%100];
         if(SwapOutTester.vaild[now]==1){

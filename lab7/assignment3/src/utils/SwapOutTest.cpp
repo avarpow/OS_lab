@@ -1,6 +1,7 @@
 #include"SwapOutTest.h"
 #include "os_type.h"
 #include "log.h"
+#include "asm_utils.h"
 
 
 SwapOutTest::SwapOutTest(/* args */)
@@ -34,7 +35,6 @@ void SwapOutTest::SwapOutCheck(){
     for(int i=0;i<check_count;i++){
         unactive[unactivecount++]=temp[i];
     }
-
 }
 int toPTE(char * virtualAddress)
 {
@@ -54,5 +54,6 @@ bool SwapOutTest::IsActive(char *vaddr){
     //printf_info("pte = %x\n",*pte);
     bool ans=(*pte)&(1<<5);//获取访问位
     *pte=*pte&(~(3<<5));//访问位和写入位清零
+    asm_cr3();
     return ans;//返回访问位
 }
